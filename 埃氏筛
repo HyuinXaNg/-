@@ -1,0 +1,314 @@
+<!doctype html>
+<html class="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdnjs.cloudflare.com https://esm.sh https://cdn.jsdelivr.net https://unpkg.com; style-src 'unsafe-inline'; img-src data: blob: https://cdnjs.cloudflare.com https://esm.sh https://cdn.jsdelivr.net https://unpkg.com; font-src data: https://cdnjs.cloudflare.com https://esm.sh https://cdn.jsdelivr.net https://unpkg.com; connect-src https://cdnjs.cloudflare.com https://esm.sh https://cdn.jsdelivr.net https://unpkg.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<style>
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f2f2f7;
+  --color-background-tertiary: #e5e5ea;
+  --color-background-info: #E6F1FB;
+  --color-background-success: #EAF3DE;
+  --color-background-warning: #FAEEDA;
+  --color-background-danger: #FCEBEB;
+  --color-text-primary: #1c1c1e;
+  --color-text-secondary: #636366;
+  --color-text-tertiary: #8e8e93;
+  --color-text-info: #185FA5;
+  --color-text-success: #3B6D11;
+  --color-text-warning: #854F0B;
+  --color-text-danger: #A32D2D;
+  --color-border-primary: rgba(0,0,0,.4);
+  --color-border-secondary: rgba(0,0,0,.3);
+  --color-border-tertiary: rgba(0,0,0,.15);
+  --color-border-info: #378ADD;
+  --color-border-success: #639922;
+  --color-border-warning: #BA7517;
+  --color-border-danger: #E24B4A;
+  --color-c-teal-600: #0F6E56;
+  --color-gray-400: #888780;
+  --font-sans: -apple-system, BlinkMacSystemFont, SF Pro Text, sans-serif;
+  --font-serif: Georgia, Times New Roman, serif;
+  --font-mono: SF Mono, Menlo, monospace;
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --foreground: var(--color-text-primary);
+  --muted: var(--color-text-secondary);
+  --accent: var(--color-text-info);
+  --border: var(--color-border-tertiary);
+  --code-bg: var(--color-background-secondary);
+}
+.t { font-family: var(--font-sans); font-size: 14px; fill: var(--color-text-primary); }
+.ts { font-family: var(--font-sans); font-size: 12px; fill: var(--color-text-secondary); }
+.th { font-family: var(--font-sans); font-size: 14px; font-weight: 500; fill: var(--color-text-primary); }
+.box { fill: var(--color-background-secondary); stroke: var(--color-border-tertiary); stroke-width: 1; rx: 6; }
+.node { cursor: pointer; }
+.node:hover .box { fill: var(--color-background-tertiary); }
+.arr { stroke: var(--color-text-secondary); stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+.leader { stroke: var(--color-border-tertiary); stroke-width: .5; stroke-dasharray: 4 2; fill: none; }
+
+.c-purple { --node-bg:#EEEDFE; --node-border:#7F77DD; --node-text:#26215C; --node-text-sub:#534AB7; }
+.c-teal { --node-bg:#E1F5EE; --node-border:#1D9E75; --node-text:#04342C; --node-text-sub:#0F6E56; }
+.c-coral { --node-bg:#FAECE7; --node-border:#D85A30; --node-text:#4A1B0C; --node-text-sub:#9B3318; }
+.c-pink { --node-bg:#FBEAF0; --node-border:#D4537E; --node-text:#4B1528; --node-text-sub:#9C2D56; }
+.c-gray { --node-bg:#F1EFE8; --node-border:#888780; --node-text:#2C2C2A; --node-text-sub:#5C5C5A; }
+.c-blue { --node-bg:#E6F1FB; --node-border:#378ADD; --node-text:#042C53; --node-text-sub:#1B5C99; }
+.c-green { --node-bg:#EAF3DE; --node-border:#639922; --node-text:#173404; --node-text-sub:#3A6B10; }
+.c-amber { --node-bg:#FAEEDA; --node-border:#BA7517; --node-text:#412402; --node-text-sub:#7A4A10; }
+.c-red { --node-bg:#FCEBEB; --node-border:#E24B4A; --node-text:#501313; --node-text-sub:#9B2222; }
+.c-purple .box,.c-teal .box,.c-coral .box,.c-pink .box,.c-gray .box,.c-blue .box,.c-green .box,.c-amber .box,.c-red .box { fill:var(--node-bg); stroke:var(--node-border); }
+.c-purple .t,.c-purple .th,.c-teal .t,.c-teal .th,.c-coral .t,.c-coral .th,.c-pink .t,.c-pink .th,.c-gray .t,.c-gray .th,.c-blue .t,.c-blue .th,.c-green .t,.c-green .th,.c-amber .t,.c-amber .th,.c-red .t,.c-red .th { fill:var(--node-text); }
+.c-purple .ts,.c-teal .ts,.c-coral .ts,.c-pink .ts,.c-gray .ts,.c-blue .ts,.c-green .ts,.c-amber .ts,.c-red .ts { fill:var(--node-text-sub); }
+.c-purple rect,.c-purple circle,.c-purple ellipse,.c-teal rect,.c-teal circle,.c-teal ellipse,.c-coral rect,.c-coral circle,.c-coral ellipse,.c-pink rect,.c-pink circle,.c-pink ellipse,.c-gray rect,.c-gray circle,.c-gray ellipse,.c-blue rect,.c-blue circle,.c-blue ellipse,.c-green rect,.c-green circle,.c-green ellipse,.c-amber rect,.c-amber circle,.c-amber ellipse,.c-red rect,.c-red circle,.c-red ellipse { fill:var(--node-bg); stroke:var(--node-border); }
+.c-purple text,.c-teal text,.c-coral text,.c-pink text,.c-gray text,.c-blue text,.c-green text,.c-amber text,.c-red text { fill:var(--node-text); }
+
+
+html { color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; background: var(--color-background-primary); overflow-x: hidden; }
+body { color: var(--color-text-primary); font-family: var(--font-sans); }
+#show-widget-root { width: 100%; min-height: 1px; }
+#show-widget-root > svg { display: block; width: 100%; height: auto; }
+</style>
+<script>
+(function () {
+  'use strict';
+  var pending = false;
+  var generation = null;
+  var lastHeight = 0;
+  var lastViewportHeight = 0;
+  var lastViewportWidth = 0;
+  var lastContentHeight = 0;
+  var scrollable = false;
+  var boundedHeight = 0;
+  function post(payload) {
+    if (generation !== null) payload.generation = generation;
+    if (window.ShowWidgetBridge && window.ShowWidgetBridge.postMessage) {
+      window.ShowWidgetBridge.postMessage(JSON.stringify(payload));
+    }
+  }
+  window.sendPrompt = function (text) {
+    if (typeof text !== 'string') text = String(text || '');
+    text = text.trim().slice(0, 500);
+    if (text) post({type: 'prompt', text: text});
+  };
+  function reportSize() {
+    pending = false;
+    var root = document.getElementById('show-widget-root');
+    if (!root) return;
+    var rect = root.getBoundingClientRect();
+    // Generated widgets often style body as a centered flex container or let
+    // the first child's margin collapse through the root. Measuring only the
+    // root's own height drops that leading document offset and clips the same
+    // amount from the bottom of the inline WebView.
+    var rootTop = Math.max(0, rect.top + window.scrollY);
+    var height = Math.ceil(rootTop + Math.max(root.scrollHeight, rect.height));
+    var viewportHeight = window.innerHeight;
+    var viewportWidth = window.innerWidth;
+    var becameScrollable = false;
+    // A viewport-relative document can have no fitting height (100vh + a
+    // margin, for example). Stop feeding that growth back into its viewport.
+    // Preserve its layout and make the remaining content scrollable instead.
+    if (false && !scrollable && lastViewportHeight > 0 &&
+        viewportWidth === lastViewportWidth && viewportHeight === lastHeight &&
+        viewportHeight > lastViewportHeight && height > viewportHeight &&
+        height - lastContentHeight >= viewportHeight - lastViewportHeight) {
+      scrollable = becameScrollable = true;
+      boundedHeight = Math.min(lastHeight, 1600);
+    }
+    lastViewportHeight = viewportHeight;
+    lastViewportWidth = viewportWidth;
+    lastContentHeight = height;
+    var reportedHeight = scrollable ? boundedHeight : height;
+    if (reportedHeight > 0 && (reportedHeight !== lastHeight || becameScrollable)) {
+      lastHeight = reportedHeight;
+      post({type: 'size', height: reportedHeight, scrollable: scrollable});
+    }
+  }
+  function scheduleSize() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(reportSize);
+  }
+  window.addEventListener('DOMContentLoaded', function () {
+    var root = document.getElementById('show-widget-root');
+    if (root && window.ResizeObserver) {
+      var observer = new ResizeObserver(scheduleSize);
+      observer.observe(root);
+      observer.observe(document.body);
+    }
+    scheduleSize();
+  });
+  window.addEventListener('load', function () {
+    scheduleSize();
+    if (generation === null) return;
+    Promise.resolve(document.fonts ? document.fonts.ready : null).then(function () {
+      requestAnimationFrame(function () {
+        reportSize();
+        requestAnimationFrame(function () { post({type: 'ready'}); });
+      });
+    });
+  });
+  window.addEventListener('error', function (event) {
+    post({type: 'error', message: String(event.message || 'Widget script failed')});
+  });
+})();
+</script>
+</head>
+<body><div id="show-widget-root"><style>
+  .sv-wrap{font-family:ui-sans-serif,system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--fg,#1f2328);max-width:760px;margin:0 auto;}
+  .sv-title{font-size:15px;font-weight:600;margin:0 0 4px;letter-spacing:.2px;}
+  .sv-sub{font-size:12.5px;color:var(--muted,#6b7280);margin:0 0 14px;line-height:1.6;}
+  .sv-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-bottom:14px;}
+  .sv-cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:7px;
+    font-size:13px;font-variant-numeric:tabular-nums;border:1px solid var(--line,#e5e7eb);
+    background:var(--cell,#fafafa);color:var(--fg,#1f2328);transition:all .32s ease;position:relative;}
+  .sv-cell.comp{background:var(--comp,#f1f2f4);color:var(--compfg,#b6bcc6);border-color:transparent;text-decoration:line-through;text-decoration-thickness:1.5px;}
+  .sv-cell.prime{background:var(--prime,#e8f0fe);border-color:var(--primeb,#c3d7fb);color:var(--primefg,#1a56c4);font-weight:600;}
+  .sv-cell.cur{background:var(--cur,#fef3c7);border-color:var(--curb,#f0b429);color:var(--curfg,#92400e);font-weight:700;transform:scale(1.08);box-shadow:0 2px 8px rgba(240,180,41,.35);}
+  .sv-cell.fresh{animation:pop .45s ease;}
+  @keyframes pop{0%{transform:scale(.82);background:var(--fresh,#fde2e1);}100%{transform:scale(1);}}
+  .sv-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+  .sv-btn{font:inherit;font-size:12.5px;padding:7px 14px;border-radius:8px;cursor:pointer;
+    border:1px solid var(--btnb,#d0d7de);background:var(--btn,#fff);color:var(--fg,#1f2328);transition:.15s;}
+  .sv-btn:hover{background:var(--btnh,#f6f8fa);}
+  .sv-btn.primary{background:var(--acc,#1a56c4);border-color:var(--acc,#1a56c4);color:#fff;}
+  .sv-btn.primary:hover{opacity:.9;}
+  .sv-btn:disabled{opacity:.45;cursor:default;}
+  .sv-log{flex:1;min-width:200px;font-size:12.5px;color:var(--muted,#6b7280);line-height:1.5;}
+  .sv-log b{color:var(--curfg,#92400e);font-variant-numeric:tabular-nums;}
+  .sv-stat{display:flex;gap:16px;font-size:12px;color:var(--muted,#6b7280);border-top:1px dashed var(--line,#e5e7eb);padding-top:9px;}
+  .sv-stat span b{color:var(--fg,#1f2328);font-variant-numeric:tabular-nums;}
+</style>
+<div class="sv-wrap">
+  <p class="sv-title">埃氏筛：把 2 到 100 的合数逐个划掉</p>
+  <p class="sv-sub">每点一次「下一步」，取当前最小的未划掉数，认定它是素数，再从它的<strong>平方</strong>开始划掉它的倍数。</p>
+  <div class="sv-grid" id="svGrid"></div>
+  <div class="sv-bar">
+    <button class="sv-btn primary" id="svNext">下一步</button>
+    <button class="sv-btn" id="svAuto">自动播放</button>
+    <button class="sv-btn" id="svReset">重置</button>
+    <div class="sv-log" id="svLog">点击「下一步」开始</div>
+  </div>
+  <div class="sv-stat">
+    <span>当前素数 p：<b id="svP">—</b></span>
+    <span>已划掉：<b id="svCut">0</b></span>
+    <span>剩余素数：<b id="svLeft">25</b></span>
+  </div>
+</div>
+<script>
+(function(){
+  var N = 100;
+  var grid = document.getElementById('svGrid');
+  var logEl = document.getElementById('svLog');
+  var pEl = document.getElementById('svP');
+  var cutEl = document.getElementById('svCut');
+  var leftEl = document.getElementById('svLeft');
+  var nextBtn = document.getElementById('svNext');
+  var autoBtn = document.getElementById('svAuto');
+  var resetBtn = document.getElementById('svReset');
+
+  var state = [];   // 0 未处理 1 素数 2 合数
+  var cursor = 1;   // 上一次选中的素数
+  var finished = false;
+  var timer = null;
+
+  function build(){
+    state = new Array(N+1).fill(0);
+    state[0] = state[1] = 2;
+    cursor = 1; finished = false;
+    grid.innerHTML = '';
+    for (var i = 2; i <= N; i++){
+      var d = document.createElement('div');
+      d.className = 'sv-cell';
+      d.textContent = i;
+      d.id = 'c' + i;
+      grid.appendChild(d);
+    }
+    pEl.textContent = '—';
+    logEl.textContent = '点击「下一步」开始';
+    updateStats();
+    nextBtn.disabled = false;
+    autoBtn.textContent = '自动播放';
+  }
+
+  function painted(){
+    var cells = grid.children, c = 0;
+    for (var i = 0; i < cells.length; i++) if (cells[i].classList.contains('comp')) c++;
+    return c;
+  }
+
+  function updateStats(){
+    cutEl.textContent = painted();
+    var left = 0;
+    for (var i = 2; i <= N; i++) if (state[i] !== 2) left++;
+    leftEl.textContent = left;
+  }
+
+  function clearFresh(){
+    var els = grid.querySelectorAll('.fresh');
+    for (var i = 0; i < els.length; i++) els[i].classList.remove('fresh');
+  }
+
+  function step(){
+    if (finished) return false;
+    clearFresh();
+    // 找下一个未划掉的数
+    var p = cursor + 1;
+    while (p <= N && state[p] === 2) p++;
+    if (p > N || p * p > N){
+      // 剩下的全是素数
+      var arr = [];
+      for (var k = 2; k <= N; k++) if (state[k] !== 2) { state[k] = 1; arr.push(k);
+        var el = document.getElementById('c'+k); el.classList.remove('cur'); el.classList.add('prime'); }
+      finished = true;
+      pEl.textContent = '—';
+      logEl.innerHTML = '剩余未划掉的 <b>' + arr.length + '</b> 个数全部是素数 —— 因为任何合数都能被 ≤ √100 的素数划掉。';
+      nextBtn.disabled = true;
+      if (timer) { clearInterval(timer); timer = null; autoBtn.textContent = '自动播放'; }
+      updateStats();
+      return false;
+    }
+    cursor = p;
+    state[p] = 1;
+    var prevCur = grid.querySelector('.cur');
+    if (prevCur) prevCur.classList.remove('cur');
+    var pe = document.getElementById('c'+p);
+    pe.classList.remove('comp'); pe.classList.add('cur', 'prime');
+
+    var from = p * p, cnt = 0;
+    for (var j = from; j <= N; j += p){
+      if (state[j] !== 2){
+        state[j] = 2;
+        var je = document.getElementById('c'+j);
+        je.classList.remove('prime'); je.classList.add('comp','fresh');
+        cnt++;
+      }
+    }
+    pEl.textContent = p;
+    logEl.innerHTML = 'p = <b>' + p + '</b>，从 <b>' + from + '</b> 开始划掉 ' + p +
+      ' 的倍数（步长 ' + p + '），本轮划掉 <b>' + cnt + '</b> 个' +
+      (p === 2 ? '。2 的倍数都落在 4 之后，跳过 2 本身。' : '；更小的倍数 ' + p*2 + '、' + p*3 + ' 早已被更小的素数划掉了。');
+    updateStats();
+    return true;
+  }
+
+  nextBtn.addEventListener('click', step);
+  resetBtn.addEventListener('click', function(){
+    if (timer){ clearInterval(timer); timer = null; autoBtn.textContent = '自动播放'; }
+    build();
+  });
+  autoBtn.addEventListener('click', function(){
+    if (timer){ clearInterval(timer); timer = null; autoBtn.textContent = '自动播放'; return; }
+    autoBtn.textContent = '暂停';
+    timer = setInterval(function(){ if (!step()){ clearInterval(timer); timer = null; autoBtn.textContent = '自动播放'; } }, 820);
+  });
+
+  build();
+})();
+</script></div></body>
+</html>
